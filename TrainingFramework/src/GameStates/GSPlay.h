@@ -34,7 +34,8 @@ private:
 	std::string s= "score: 0";
 	std::shared_ptr<Text>		m_score;
 	std::shared_ptr<Sprite2D>	m_base,m_base2;
-	std::list<std::shared_ptr<GameButton>>	m_listButton;
+	std::list<std::shared_ptr<GameButton>>	m_listButton;	
+	std::shared_ptr<Sprite2D> treeUp, treeDown;
 	std::list<std::shared_ptr<SpriteAnimation>>	m_listAnimation;
 
 };

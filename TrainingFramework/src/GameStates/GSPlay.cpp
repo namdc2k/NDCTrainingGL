@@ -46,6 +46,16 @@ void GSPlay::Init()
 	m_base2->Set2DPosition(Vector2((float)Globals::screenWidth / 2, 770));
 	m_base2->SetSize(480, 238);
 
+	// tree
+	texture = ResourceManagers::GetInstance()->GetTexture("tree_up.tga");
+	treeUp = std::make_shared<Sprite2D>(model, shader, texture);
+	treeUp->Set2DPosition(Vector2((float)Globals::screenWidth / 2, 0));
+	treeUp->SetSize(89, 401);
+	texture = ResourceManagers::GetInstance()->GetTexture("tree_down.tga");
+	treeDown = std::make_shared<Sprite2D>(model, shader, texture);
+	treeDown->Set2DPosition(Vector2((float)Globals::screenWidth / 2, 600));
+	treeDown->SetSize(89, 401);
+
 	// button close
 	texture = ResourceManagers::GetInstance()->GetTexture("btn_close.tga");
 	std::shared_ptr<GameButton>  button = std::make_shared<GameButton>(model, shader, texture);
@@ -66,7 +76,6 @@ void GSPlay::Init()
 	shader = ResourceManagers::GetInstance()->GetShader("Animation");
 	texture = ResourceManagers::GetInstance()->GetTexture("bird_0.tga");
 	std::shared_ptr<SpriteAnimation> obj = std::make_shared<SpriteAnimation>(model, shader, texture, 3, 1, 0, 0.08f);
-
 	obj->Set2DPosition(240, 350);
 	obj->SetSize(194.4f, 148.8f);
 	//obj->SetRotation(Vector3(0.0f, 3.14f, 0.0f));
@@ -95,6 +104,15 @@ void GSPlay::HandleEvents()
 
 void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 {
+	Vector2 m;
+	GLint k = 50000;
+	while (k--);
+	for (auto it : m_listAnimation) {
+		m = it->Get2DPosition();
+		it->SetRotation(Vector3(0.0f, 1.0f, 0.0f));
+		it->Set2DPosition(m.x, m.y - 120);
+		ResourceManagers::GetInstance()->PlaySound(name);
+	}
 
 }
 
@@ -107,14 +125,6 @@ void GSPlay::HandleTouchEvents(int x, int y, bool bIsPressed)
 			break;
 		}
 	}
-	Vector2 m;
-	for (auto it : m_listAnimation)
-	{
-		m = it->Get2DPosition();
-		it->SetRotation(Vector3(0.0f, 1.0f, 0.0f));
-		it->Set2DPosition(m.x, m.y - 50);
-		ResourceManagers::GetInstance()->PlaySound(name);
-	}
 
 }
 
@@ -124,14 +134,26 @@ void GSPlay::HandleMouseMoveEvents(int x, int y)
 
 void GSPlay::Update(float deltaTime)
 {
+	GLint k;
 	Vector3 m1 = m_background->GetPosition();
-	if (m1.x == -240) m1.x = 240 + 480, score++;
+	if (m1.x == -240) m1.x = 240 + 480;
 	m_background->Set2DPosition(m1.x - 3, m1.y);
-	m_base->Set2DPosition(m1.x - 2, 770);
+	m_base->Set2DPosition(m1.x - 3, 770);
 	Vector3 m2 = m_background2->GetPosition();
-	if (m2.x == -240) m2.x = 240 + 480, score++;
+	if (m2.x == -240) m2.x = 240 + 480;
 	m_background2->Set2DPosition(m2.x - 3, m2.y);
-	m_base2->Set2DPosition(m2.x - 2, 770);
+	m_base2->Set2DPosition(m2.x - 3, 770);
+
+	//tree
+	Vector3 m3 = treeUp->GetPosition();
+	if (m3.x == -45) m3.x = 480 + 45, m3.y = (rand() % 4) * 30;
+	treeUp->Set2DPosition(m3.x - 3, m3.y);
+
+	Vector3 m4 = treeDown->GetPosition();
+	if (m4.x == -45) m4.x = 480 + 45, m4.y = m3.y + 600;
+	treeDown->Set2DPosition(m4.x - 3, m4.y);
+	if (m4.x+45 == (float)Globals::screenWidth / 2)score++;
+	//button
 	for (auto it : m_listButton)
 	{
 		it->Update(deltaTime);
@@ -141,7 +163,7 @@ void GSPlay::Update(float deltaTime)
 	{
 		m = it->Get2DPosition();
 		if (m.y > 700)m.y = 700;
-		it->Set2DPosition(m.x, m.y + 2);
+		it->Set2DPosition(m.x, m.y + 5);
 		it->Update(deltaTime);
 	}
 	auto toString = [&](GLint score) {
@@ -159,13 +181,14 @@ void GSPlay::Update(float deltaTime)
 	}
 	m_score->SetText(s);
 
-
 }
 
 void GSPlay::Draw()
 {
 	m_background->Draw();
 	m_background2->Draw();
+	treeDown->Draw();
+	treeUp->Draw();
 	m_score->Draw();
 	m_base->Draw();
 	m_base2->Draw();
