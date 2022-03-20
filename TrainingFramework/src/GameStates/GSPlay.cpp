@@ -49,11 +49,11 @@ void GSPlay::Init()
 	// tree
 	texture = ResourceManagers::GetInstance()->GetTexture("tree_up.tga");
 	treeUp = std::make_shared<Sprite2D>(model, shader, texture);
-	treeUp->Set2DPosition(Vector2((float)Globals::screenWidth / 2, 0));
+	treeUp->Set2DPosition(Vector2(800, 0));
 	treeUp->SetSize(89, 401);
 	texture = ResourceManagers::GetInstance()->GetTexture("tree_down.tga");
 	treeDown = std::make_shared<Sprite2D>(model, shader, texture);
-	treeDown->Set2DPosition(Vector2((float)Globals::screenWidth / 2, 600));
+	treeDown->Set2DPosition(Vector2(800, 600));
 	treeDown->SetSize(89, 401);
 
 	// button close
@@ -99,21 +99,10 @@ void GSPlay::Resume()
 
 void GSPlay::HandleEvents()
 {
-
 }
 
 void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 {
-	Vector2 m;
-	GLint k = 50000;
-	while (k--);
-	for (auto it : m_listAnimation) {
-		m = it->Get2DPosition();
-		it->SetRotation(Vector3(0.0f, 1.0f, 0.0f));
-		it->Set2DPosition(m.x, m.y - 120);
-		ResourceManagers::GetInstance()->PlaySound(name);
-	}
-
 }
 
 void GSPlay::HandleTouchEvents(int x, int y, bool bIsPressed)
@@ -125,6 +114,12 @@ void GSPlay::HandleTouchEvents(int x, int y, bool bIsPressed)
 			break;
 		}
 	}
+	Vector2 m;
+	for (auto it : m_listAnimation) {
+		m = it->Get2DPosition();
+		it->Set2DPosition(m.x, m.y - 120);
+		ResourceManagers::GetInstance()->PlaySound(name);
+	}
 
 }
 
@@ -134,7 +129,6 @@ void GSPlay::HandleMouseMoveEvents(int x, int y)
 
 void GSPlay::Update(float deltaTime)
 {
-	GLint k;
 	Vector3 m1 = m_background->GetPosition();
 	if (m1.x == -240) m1.x = 240 + 480;
 	m_background->Set2DPosition(m1.x - 3, m1.y);
@@ -146,13 +140,16 @@ void GSPlay::Update(float deltaTime)
 
 	//tree
 	Vector3 m3 = treeUp->GetPosition();
-	if (m3.x == -45) m3.x = 480 + 45, m3.y = (rand() % 4) * 30;
-	treeUp->Set2DPosition(m3.x - 3, m3.y);
+	if (m3.x <= -45) m3.x = 480 + 45, m3.y = (rand() % 8 - 3) * 30;
+	treeUp->Set2DPosition(m3.x - 5, m3.y);
 
 	Vector3 m4 = treeDown->GetPosition();
-	if (m4.x == -45) m4.x = 480 + 45, m4.y = m3.y + 600;
-	treeDown->Set2DPosition(m4.x - 3, m4.y);
-	if (m4.x+45 == (float)Globals::screenWidth / 2)score++;
+	if (m4.x <= -45) m4.x = 480 + 45, m4.y = m3.y + 600;
+	treeDown->Set2DPosition(m4.x - 5, m4.y);
+	if (m4.x + 45 == (float)Globals::screenWidth / 2) {
+		score++;
+		ResourceManagers::GetInstance()->PlaySound("ping.wav");
+	}
 	//button
 	for (auto it : m_listButton)
 	{
