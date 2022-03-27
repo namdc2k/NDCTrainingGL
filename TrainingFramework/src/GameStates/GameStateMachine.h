@@ -10,7 +10,9 @@ enum class StateType
 	STATE_INVALID = 0,
 	STATE_INTRO,
 	STATE_MENU,
-	STATE_PLAY
+	STATE_PLAY,
+	STATE_SETTING,
+	STATE_GAMEOVER
 };
 
 class GameStateMachine : public CSingleton<GameStateMachine>

@@ -116,9 +116,11 @@ void GSPlay::HandleTouchEvents(int x, int y, bool bIsPressed)
 	}
 	Vector2 m;
 	for (auto it : m_listAnimation) {
-		m = it->Get2DPosition();
-		it->Set2DPosition(m.x, m.y - 120);
-		ResourceManagers::GetInstance()->PlaySound(name);
+		if (bIsPressed) {
+			m = it->Get2DPosition();
+			it->Set2DPosition(m.x, m.y - 120);
+			ResourceManagers::GetInstance()->PlaySound(name);
+		}
 	}
 
 }
