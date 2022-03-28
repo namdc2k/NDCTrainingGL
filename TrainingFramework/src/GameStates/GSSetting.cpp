@@ -30,6 +30,24 @@ void GSSetting::Init()
 		GameStateMachine::GetInstance()->PopState();
 		});
 	m_listButton.push_back(button);
+
+	texture = ResourceManagers::GetInstance()->GetTexture("btn_music.tga");
+	soundOn = std::make_shared<GameButton>(model, shader, texture);
+	soundOn->Set2DPosition(Globals::screenWidth/2, Globals::screenHeight/ 2);
+	soundOn->SetSize(70, 70);
+	soundOn->SetOnClick([this]() {
+		statusSound = !statusSound;
+	});
+
+	texture = ResourceManagers::GetInstance()->GetTexture("btn_music_off.tga");
+	soundOff = std::make_shared<GameButton>(model, shader, texture);
+	soundOff->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight / 2);
+	soundOff->SetSize(70, 70);
+	soundOff->SetOnClick([this]() {
+		statusSound = !statusSound;
+	});
+
+	
 }
 
 void GSSetting::Exit()
@@ -61,6 +79,9 @@ void GSSetting::HandleTouchEvents(int x, int y, bool bIsPressed)
 			break;
 		}
 	}
+	soundOff->HandleTouchEvents(x, y, bIsPressed);
+	soundOn->HandleTouchEvents(x, y, bIsPressed);
+	
 }
 
 void GSSetting::HandleMouseMoveEvents(int x, int y)
@@ -74,6 +95,8 @@ void GSSetting::Update(float deltaTime)
 	{
 		it->Update(deltaTime);
 	}
+	soundOff->Update(deltaTime);
+	soundOn->Update(deltaTime);
 }
 
 void GSSetting::Draw()
@@ -82,5 +105,11 @@ void GSSetting::Draw()
 	for (auto it : m_listButton)
 	{
 		it->Draw();
+	}
+	if (statusSound) {
+		soundOn->Draw();
+	}
+	else {
+		soundOff->Draw();
 	}
 }

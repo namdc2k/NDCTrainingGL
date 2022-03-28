@@ -12,6 +12,7 @@ GSMenu::~GSMenu()
 
 
 
+
 void GSMenu::Init()
 {
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
@@ -47,7 +48,7 @@ void GSMenu::Init()
 	button->Set2DPosition(Globals::screenWidth - 50, 600);
 	button->SetSize(50, 50);
 	button->SetOnClick([]() {
-		exit(0);
+		GameStateMachine::GetInstance()->ChangeState(StateType::STATE_CREDIT);
 		});
 	m_listButton.push_back(button);
 	// exit button
