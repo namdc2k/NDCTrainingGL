@@ -1,7 +1,7 @@
 
 #include "GSSetting.h"
-
-GSSetting::GSSetting(): GameStateBase(StateType::STATE_SETTING),
+extern bool statusSound, statusMusic;
+GSSetting::GSSetting() : GameStateBase(StateType::STATE_SETTING),
 m_background(nullptr), m_listButton(std::list<std::shared_ptr<GameButton>>{})
 {
 }
@@ -31,23 +31,36 @@ void GSSetting::Init()
 		});
 	m_listButton.push_back(button);
 
-	texture = ResourceManagers::GetInstance()->GetTexture("btn_music.tga");
+
+	//sound
+	texture = ResourceManagers::GetInstance()->GetTexture("btn_sfx.tga");
 	soundOn = std::make_shared<GameButton>(model, shader, texture);
-	soundOn->Set2DPosition(Globals::screenWidth/2, Globals::screenHeight/ 2);
+	soundOn->Set2DPosition(200, Globals::screenHeight / 2);
 	soundOn->SetSize(70, 70);
 	soundOn->SetOnClick([this]() {
-		statusSound = !statusSound;
-	});
+		});
 
-	texture = ResourceManagers::GetInstance()->GetTexture("btn_music_off.tga");
+	texture = ResourceManagers::GetInstance()->GetTexture("btn_sfx_off.tga");
 	soundOff = std::make_shared<GameButton>(model, shader, texture);
-	soundOff->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight / 2);
+	soundOff->Set2DPosition(200, Globals::screenHeight / 2);
 	soundOff->SetSize(70, 70);
 	soundOff->SetOnClick([this]() {
-		statusSound = !statusSound;
-	});
+		});
 
-	
+	// music
+	texture = ResourceManagers::GetInstance()->GetTexture("btn_music.tga");
+	musicOn = std::make_shared<GameButton>(model, shader, texture);
+	musicOn->Set2DPosition(310, Globals::screenHeight / 2);
+	musicOn->SetSize(70, 70);
+	musicOn->SetOnClick([this]() {
+		});
+
+	texture = ResourceManagers::GetInstance()->GetTexture("btn_music_off.tga");
+	musicOff = std::make_shared<GameButton>(model, shader, texture);
+	musicOff->Set2DPosition(310, Globals::screenHeight / 2);
+	musicOff->SetSize(70, 70);
+	musicOff->SetOnClick([this]() {
+		});
 }
 
 void GSSetting::Exit()
@@ -81,7 +94,14 @@ void GSSetting::HandleTouchEvents(int x, int y, bool bIsPressed)
 	}
 	soundOff->HandleTouchEvents(x, y, bIsPressed);
 	soundOn->HandleTouchEvents(x, y, bIsPressed);
-	
+	if (bIsPressed && x <= 200 + 30 && x >= 200 - 30 && y <= 400 + 30 && y >= 400 - 30) {
+		if (statusSound)statusSound = false;
+		else statusSound = true;
+	}
+	if (bIsPressed && x <= 310 + 30 && x >= 310 - 30 && y <= 400 + 30 && y >= 400 - 30) {
+		if (statusMusic)statusMusic = false;
+		else statusMusic = true;
+	}
 }
 
 void GSSetting::HandleMouseMoveEvents(int x, int y)
@@ -97,6 +117,8 @@ void GSSetting::Update(float deltaTime)
 	}
 	soundOff->Update(deltaTime);
 	soundOn->Update(deltaTime);
+	musicOn->Update(deltaTime);
+	musicOff->Update(deltaTime);
 }
 
 void GSSetting::Draw()
@@ -111,5 +133,12 @@ void GSSetting::Draw()
 	}
 	else {
 		soundOff->Draw();
+	}
+
+	if (statusMusic) {
+		musicOn->Draw();
+	}
+	else {
+		musicOff->Draw();
 	}
 }

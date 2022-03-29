@@ -2,6 +2,7 @@
 #include "GameStateBase.h"
 #include "GameButton.h"
 
+
 class GSSetting : public GameStateBase
 {
 public:
@@ -27,5 +28,5 @@ private:
 	GLint m_Test = 0;
 	std::list<std::shared_ptr<GameButton>>	m_listButton;
 	std::shared_ptr<GameButton> soundOn, soundOff;
-	bool statusSound = true;
+	std::shared_ptr<GameButton> musicOn, musicOff;
 };

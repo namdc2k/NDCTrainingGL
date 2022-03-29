@@ -13,7 +13,7 @@
 #include <GameStates/GSMenu.h>
 
 std::string name = "fly.wav";
-
+extern bool statusSound, statusMusic;
 GSPlay::GSPlay()
 {
 }
@@ -151,6 +151,7 @@ void GSPlay::Update(float deltaTime)
 	if (m4.x + 45 == (float)Globals::screenWidth / 2) {
 		score++;
 		ResourceManagers::GetInstance()->PlaySound("ping.wav");
+		std::cout << statusSound << ' ';
 	}
 	//button
 	for (auto it : m_listButton)
@@ -162,7 +163,7 @@ void GSPlay::Update(float deltaTime)
 	{
 		m = it->Get2DPosition();
 		if (m.y > 700)m.y = 700;
-		it->Set2DPosition(m.x, m.y + 5);
+		it->Set2DPosition(m.x, m.y + 300*deltaTime);
 		it->Update(deltaTime);
 	}
 	auto toString = [&](GLint score) {
