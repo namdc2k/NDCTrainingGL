@@ -20,6 +20,11 @@ void GSCredit::Init()
 	m_background->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight / 2);
 	m_background->SetSize(Globals::screenWidth, Globals::screenHeight);
 
+	texture = ResourceManagers::GetInstance()->GetTexture("credits.tga");
+	m_credits = std::make_shared<Sprite2D>(model, shader, texture);
+	m_credits->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight / 2);
+	m_credits->SetSize(400, 400);
+
 	texture = ResourceManagers::GetInstance()->GetTexture("btn_close.tga");
 	std::shared_ptr<GameButton>  button = std::make_shared<GameButton>(model, shader, texture);
 	button->Set2DPosition(Globals::screenWidth - 50, 50);
@@ -82,4 +87,5 @@ void GSCredit::Draw()
 	{
 		it->Draw();
 	}
+	m_credits->Draw();
 }

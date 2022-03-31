@@ -23,6 +23,8 @@ class Globals
 public:
 	static int Globals::screenWidth;
 	static int Globals::screenHeight;
+	static bool Globals::statusSound;
+	static bool Globals::statusMusic;
 };
 
 // define value

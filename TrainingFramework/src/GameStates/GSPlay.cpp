@@ -12,7 +12,7 @@
 #include "SpriteAnimation.h"
 #include <GameStates/GSMenu.h>
 
-std::string name = "fly.wav";
+std::string soundFLy = "fly.wav";
 extern bool statusSound, statusMusic;
 GSPlay::GSPlay()
 {
@@ -119,7 +119,8 @@ void GSPlay::HandleTouchEvents(int x, int y, bool bIsPressed)
 		if (bIsPressed) {
 			m = it->Get2DPosition();
 			it->Set2DPosition(m.x, m.y - 120);
-			ResourceManagers::GetInstance()->PlaySound(name);
+			if (Globals::statusSound)
+				ResourceManagers::GetInstance()->PlaySound(soundFLy);
 		}
 	}
 
@@ -150,8 +151,8 @@ void GSPlay::Update(float deltaTime)
 	treeDown->Set2DPosition(m4.x - 5, m4.y);
 	if (m4.x + 45 == (float)Globals::screenWidth / 2) {
 		score++;
-		ResourceManagers::GetInstance()->PlaySound("ping.wav");
-		std::cout << statusSound << ' ';
+		if (Globals::statusSound)
+			ResourceManagers::GetInstance()->PlaySound("ping.wav");
 	}
 	//button
 	for (auto it : m_listButton)
@@ -163,7 +164,7 @@ void GSPlay::Update(float deltaTime)
 	{
 		m = it->Get2DPosition();
 		if (m.y > 700)m.y = 700;
-		it->Set2DPosition(m.x, m.y + 300*deltaTime);
+		it->Set2DPosition(m.x, m.y + 300 * deltaTime);
 		it->Update(deltaTime);
 	}
 	auto toString = [&](GLint score) {

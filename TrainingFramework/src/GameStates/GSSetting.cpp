@@ -95,12 +95,12 @@ void GSSetting::HandleTouchEvents(int x, int y, bool bIsPressed)
 	soundOff->HandleTouchEvents(x, y, bIsPressed);
 	soundOn->HandleTouchEvents(x, y, bIsPressed);
 	if (bIsPressed && x <= 200 + 30 && x >= 200 - 30 && y <= 400 + 30 && y >= 400 - 30) {
-		if (statusSound)statusSound = false;
-		else statusSound = true;
+		if (Globals::statusSound)Globals::statusSound = false;
+		else Globals::statusSound = true;
 	}
 	if (bIsPressed && x <= 310 + 30 && x >= 310 - 30 && y <= 400 + 30 && y >= 400 - 30) {
-		if (statusMusic)statusMusic = false;
-		else statusMusic = true;
+		if (Globals::statusMusic)Globals::statusMusic = false;
+		else Globals::statusMusic = true;
 	}
 }
 
@@ -128,14 +128,14 @@ void GSSetting::Draw()
 	{
 		it->Draw();
 	}
-	if (statusSound) {
+	if (Globals::statusSound) {
 		soundOn->Draw();
 	}
 	else {
 		soundOff->Draw();
 	}
 
-	if (statusMusic) {
+	if (Globals::statusMusic) {
 		musicOn->Draw();
 	}
 	else {

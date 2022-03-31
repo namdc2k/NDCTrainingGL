@@ -6,7 +6,6 @@ class Sprite3D;
 class Text;
 class GameButton;
 class SpriteAnimation;
-extern bool statusSound, statusMusic;
 class GSPlay :
 	public GameStateBase
 {

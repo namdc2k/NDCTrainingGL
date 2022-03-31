@@ -1,7 +1,7 @@
 #include "GSMenu.h"
 #include "Camera.h"
 GSMenu::GSMenu() : GameStateBase(StateType::STATE_MENU), 
-	m_background(nullptr), m_listButton(std::list<std::shared_ptr<GameButton>>{}), m_textGameName(nullptr)
+	m_background(nullptr), m_listButton(std::list<std::shared_ptr<GameButton>>{}), m_logoGame(nullptr)
 {
 }
 
@@ -62,10 +62,10 @@ void GSMenu::Init()
 	m_listButton.push_back(button);
 
 	// game title
-	shader = ResourceManagers::GetInstance()->GetShader("TextShader");
-	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("AngryBirds.ttf");
-	m_textGameName = std::make_shared< Text>(shader, font, "flappy bird", TextColor::WHITE, 3.0f);
-	m_textGameName->Set2DPosition(Vector2(35, 200));
+	texture = ResourceManagers::GetInstance()->GetTexture("logoGame.tga");
+	m_logoGame = std::make_shared<Sprite2D>(model, shader, texture);
+	m_logoGame->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight / 2-200);
+	m_logoGame->SetSize(510, 117);
 
 	std::string name = "Alarm01.wav";
 	ResourceManagers::GetInstance()->PlaySound(name);
@@ -125,5 +125,5 @@ void GSMenu::Draw()
 	{
 		it->Draw();
 	}
-	m_textGameName->Draw();
+	m_logoGame ->Draw();
 }

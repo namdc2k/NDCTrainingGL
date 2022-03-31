@@ -5,6 +5,8 @@
 
 int Globals::screenWidth = 480;
 int Globals::screenHeight = 800;
+bool Globals::statusMusic = true;
+bool Globals::statusSound = true;
 
 GLint Init(ESContext* esContext)
 {
