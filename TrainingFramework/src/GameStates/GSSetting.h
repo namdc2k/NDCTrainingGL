@@ -28,5 +28,6 @@ private:
 	GLint m_Test = 0;
 	std::list<std::shared_ptr<GameButton>>	m_listButton;
 	std::shared_ptr<GameButton> soundOn, soundOff;
+	std::string name = "FBMusic.wav";
 	std::shared_ptr<GameButton> musicOn, musicOff;
 };

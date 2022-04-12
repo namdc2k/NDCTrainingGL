@@ -99,8 +99,14 @@ void GSSetting::HandleTouchEvents(int x, int y, bool bIsPressed)
 		else Globals::statusSound = true;
 	}
 	if (bIsPressed && x <= 310 + 30 && x >= 310 - 30 && y <= 400 + 30 && y >= 400 - 30) {
-		if (Globals::statusMusic)Globals::statusMusic = false;
-		else Globals::statusMusic = true;
+		if (Globals::statusMusic) {
+			Globals::statusMusic = false;
+			ResourceManagers::GetInstance()->StopSound(name);
+		}
+		else { 
+			Globals::statusMusic = true; 
+			ResourceManagers::GetInstance()->PlaySound(name,true);
+		}
 	}
 }
 

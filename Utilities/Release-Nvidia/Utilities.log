@@ -1,6 +1,1 @@
-﻿  esShader.cpp
-  esUtil.cpp
-  esUtil_win.cpp
-  CMath.cpp
-  TGA.cpp
-  Utilities.vcxproj -> C:\Users\Acer\Desktop\TrainingGL\BIN-Nvidia\Utilities.lib
+﻿  Utilities.vcxproj -> C:\Users\Acer\Desktop\NDCTrainingGL\BIN-Nvidia\Utilities.lib

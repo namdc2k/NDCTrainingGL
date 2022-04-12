@@ -95,8 +95,8 @@ void GSPlay::Init()
 	// score
 	shader = ResourceManagers::GetInstance()->GetShader("TextShader");
 	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("AngryBirds.ttf");
-	m_score = std::make_shared< Text>(shader, font, "score: 0", TextColor::RED, 1.5f);
-	m_score->Set2DPosition(Vector2(5, 64));
+	m_score = std::make_shared< Text>(shader, font, "0", TextColor::WHITE, 4.0f);
+	m_score->Set2DPosition(Globals::screenWidth / 2 - 20, Globals::screenHeight / 2 - 250);
 
 	// text pause
 	std::shared_ptr<Text> text_pause = std::make_shared< Text>(shader, font, "restart", TextColor::WHITE, 1.0f);
@@ -148,9 +148,9 @@ void GSPlay::HandleTouchEvents(int x, int y, bool bIsPressed)
 	if (!status_pause) {
 		Vector2 m;
 		for (auto it : m_listAnimation) {
-			if (bIsPressed) {
+			if (bIsPressed && y > 75) {
 				m = it->Get2DPosition();
-				it->Set2DPosition(m.x, m.y - 120);
+				it->Set2DPosition(m.x, m.y - 110);
 				if (Globals::statusSound)
 					ResourceManagers::GetInstance()->PlaySound(soundFLy);
 			}
@@ -160,14 +160,13 @@ void GSPlay::HandleTouchEvents(int x, int y, bool bIsPressed)
 		m_close->HandleTouchEvents(x, y, bIsPressed);
 		m_restart->HandleTouchEvents(x, y, bIsPressed);
 	}
-
-	for (auto button : m_listButton)
-	{
-		if (button->HandleTouchEvents(x, y, bIsPressed))
-		{
-			break;
+	if (!status_GO)
+		for (auto button : m_listButton) {
+			if (button->HandleTouchEvents(x, y, bIsPressed))
+			{
+				break;
+			}
 		}
-	}
 }
 
 void GSPlay::HandleMouseMoveEvents(int x, int y)
@@ -207,7 +206,18 @@ void GSPlay::Update(float deltaTime)
 			it->Update(deltaTime);
 		}
 		if ((m.y <= m3.y + 230 || m.y >= m4.y - 230) && m.x + 97 >= m3.x && m.x + 97 <= m3.x + 194) {
-			status_GO = true;status_pause = true;
+			status_GO = true; status_pause = true;
+			if (Globals::statusSound)
+				ResourceManagers::GetInstance()->PlaySound("dead.wav");
+		}
+	}
+	if (status_GO) {
+		Vector2 m;
+		for (auto it : m_listAnimation) {
+			m = it->Get2DPosition();
+			if (m.y > 850)break;
+			it->Set2DPosition(m.x, m.y + 500 * deltaTime);
+			it->Update(deltaTime);
 		}
 	}
 	//button
@@ -221,7 +231,6 @@ void GSPlay::Update(float deltaTime)
 			ss = (char)(score % 10 + '0') + ss;
 			score /= 10;
 		}
-		ss = "score: " + ss;
 		return ss;
 	};
 	if (score > tmp) {

@@ -67,8 +67,8 @@ void GSMenu::Init()
 	m_logoGame->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight / 2-200);
 	m_logoGame->SetSize(510, 117);
 
-	std::string name = "Alarm01.wav";
-	ResourceManagers::GetInstance()->PlaySound(name);
+	std::string name = "FBMusic.wav";
+	ResourceManagers::GetInstance()->PlaySound(name,true);
 }
 
 void GSMenu::Exit()
